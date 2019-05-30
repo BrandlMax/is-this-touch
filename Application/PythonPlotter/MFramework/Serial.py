@@ -18,7 +18,7 @@ class CONNECTION:
         print('Trying to connect to: ' + str(self.PORT) +
               ' at ' + str(self.BAUD) + ' BAUD.')
         try:
-            self.SERIAL = serial.Serial(self.PORT, self.BAUD, timeout=4)
+            self.SERIAL = serial.Serial(self.PORT, self.BAUD, timeout=1)
             print('Connected to ' + str(self.PORT) +
                   ' at ' + str(self.BAUD) + ' BAUD.')
 
@@ -31,9 +31,9 @@ class CONNECTION:
 
     def READ(self):
         while (self.isReading):
-            time.sleep(1.0)
+            # time.sleep(0.1)
             self.LINE = self.SERIAL.readline().decode('utf-8')
-            print('READ LINE: ' + self.LINE)
+            # print('READ LINE: ' + self.LINE)
             self.ready = True
 
     def close(self):
