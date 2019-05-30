@@ -2,22 +2,36 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.widgets import Button
+
 from MFramework import Serial
 
 
 class HARRY_PLOTTER:
     def __init__(self):
         print('HARRY PLOTTER')
-
-        self.fig = plt.figure()
+        # Plot
+        self.fig = plt.figure(num='m˚ Signal Plotter')
         self.ax = plt.axes()
 
+        # Dummy Data
         self.xs = self.zero(500)
         self.ys = self.zero(500)
 
+        # Labels
         self.ax.set_title('Arduino Signal Plotter')
         self.ax.set_xlabel('Time')
         self.ax.set_ylabel('Data')
+
+        # GUI
+        # L, B, W, H
+        self.axStart = plt.axes([0, 0, 0.2, 0.05])
+        self.startButton = Button(self.axStart, 'Start Session')
+        self.startButton.on_clicked(self.startSession)
+
+        self.axEnd = plt.axes([0.21, 0, 0.2, 0.05])
+        self.endButton = Button(self.axEnd, 'End Session')
+        self.endButton.on_clicked(self.endSession)
 
         self.SERIAL = Serial.CONNECTION('/dev/cu.SLAB_USBtoUART', 115200)
 
@@ -36,6 +50,12 @@ class HARRY_PLOTTER:
         ani = animation.FuncAnimation(
             self.fig, self.plot, fargs=(self.xs, self.ys), interval=10)
         plt.show()
+
+    def startSession(self, e):
+        print('Session Started')
+
+    def endSession(self, e):
+        print('Session closed')
 
     def zero(self, n):
         zeros = [0] * n
