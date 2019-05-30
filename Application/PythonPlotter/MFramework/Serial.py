@@ -31,9 +31,7 @@ class CONNECTION:
 
     def READ(self):
         while (self.isReading):
-            # time.sleep(0.1)
             self.LINE = self.SERIAL.readline().decode('utf-8')
-            # print('READ LINE: ' + self.LINE)
             self.ready = True
 
     def close(self):
