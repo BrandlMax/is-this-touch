@@ -7,9 +7,9 @@ def main():
     # Init
 
     # ESP
-    #PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.SLAB_USBtoUART', 115200)
+    #PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.SLAB_USBtoUART', 115200, 1, '')
     # UNO
-    PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.usbmodem1413301', 115200)
+    PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.usbmodem1413301', 115200, 4, '7')
 
     # Start Plotting Loop
     PLOTTER.render()

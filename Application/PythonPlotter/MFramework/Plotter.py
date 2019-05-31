@@ -8,7 +8,7 @@ from MFramework import Serial
 
 
 class HARRY_PLOTTER:
-    def __init__(self, Port, Baud):
+    def __init__(self, Port, Baud, BufferLength='1', Divider='0'):
         print('HARRY PLOTTER')
 
         # Plot
@@ -34,12 +34,15 @@ class HARRY_PLOTTER:
         self.endButton = Button(self.axEnd, 'End Session')
         self.endButton.on_clicked(self.endSession)
 
-        self.SERIAL = Serial.CONNECTION(Port, Baud)
+        self.SERIAL = Serial.CONNECTION(Port, Baud, BufferLength, Divider)
 
     def plot(self, i, xs, ys):
         if(self.SERIAL.ready):
             self.xs = range(len(self.ys))
-            self.ys.append(int(self.SERIAL.LINE))
+            print(self.SERIAL.doneBUFFER)
+            for i in range(len(self.SERIAL.doneBUFFER)):
+                print('PLOT: ' + str(self.SERIAL.doneBUFFER[i]))
+                self.ys.append(int(self.SERIAL.doneBUFFER[i]))
 
             self.xs = self.xs[-500:]
             self.ys = self.ys[-500:]
@@ -49,7 +52,7 @@ class HARRY_PLOTTER:
 
     def render(self):
         ani = animation.FuncAnimation(
-            self.fig, self.plot, fargs=(self.xs, self.ys), interval=10)
+            self.fig, self.plot, fargs=(self.xs, self.ys), interval=1)
         plt.show()
 
     def startSession(self, e):
