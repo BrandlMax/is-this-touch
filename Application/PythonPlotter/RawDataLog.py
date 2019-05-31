@@ -4,7 +4,8 @@ from MFramework import Serial
 
 def main():
     print('ArduinoPlotting')
-    SERIAL = Serial.CONNECTION('/dev/cu.SLAB_USBtoUART', 115200)
+    # SERIAL = Serial.CONNECTION('/dev/cu.SLAB_USBtoUART', 115200)
+    SERIAL = Serial.CONNECTION('/dev/cu.usbmodem1413301', 115200)
     while(SERIAL.isReading):
         print(SERIAL.LINE)
 

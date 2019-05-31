@@ -8,8 +8,9 @@ from MFramework import Serial
 
 
 class HARRY_PLOTTER:
-    def __init__(self):
+    def __init__(self, Port, Baud):
         print('HARRY PLOTTER')
+
         # Plot
         self.fig = plt.figure(num='m˚ Signal Plotter')
         self.ax = plt.axes()
@@ -33,7 +34,7 @@ class HARRY_PLOTTER:
         self.endButton = Button(self.axEnd, 'End Session')
         self.endButton.on_clicked(self.endSession)
 
-        self.SERIAL = Serial.CONNECTION('/dev/cu.SLAB_USBtoUART', 115200)
+        self.SERIAL = Serial.CONNECTION(Port, Baud)
 
     def plot(self, i, xs, ys):
         if(self.SERIAL.ready):
