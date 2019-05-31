@@ -8,16 +8,18 @@ from MFramework import Serial
 
 
 class HARRY_PLOTTER:
-    def __init__(self, Port, Baud, BufferLength='1', Divider='0'):
+    def __init__(self, Mode, Scale, Port, Baud, BufferLength='1', Divider='0'):
         print('HARRY PLOTTER')
 
         # Plot
+        self.Mode = Mode
+        self.Scale = Scale
         self.fig = plt.figure(num='m˚ Signal Plotter')
         self.ax = plt.axes()
 
         # Dummy Data
-        self.xs = self.zero(500)
-        self.ys = self.zero(500)
+        self.xs = self.zero(self.Scale)
+        self.ys = self.zero(self.Scale)
 
         # Labels
         self.ax.set_title('Arduino Signal Plotter')
@@ -38,14 +40,19 @@ class HARRY_PLOTTER:
 
     def plot(self, i, xs, ys):
         if(self.SERIAL.ready):
-            self.xs = range(len(self.ys))
-            print(self.SERIAL.doneBUFFER)
-            for i in range(len(self.SERIAL.doneBUFFER)):
-                print('PLOT: ' + str(self.SERIAL.doneBUFFER[i]))
-                self.ys.append(int(self.SERIAL.doneBUFFER[i]))
 
-            self.xs = self.xs[-500:]
-            self.ys = self.ys[-500:]
+            if(self.Mode == 'stream'):
+                for i in range(len(self.SERIAL.doneBUFFER)):
+                    # print('PLOT: ' + str(self.SERIAL.doneBUFFER[i]))
+                    self.ys.append(int(self.SERIAL.doneBUFFER[i]))
+                self.xs = range(len(self.ys))
+                self.xs = self.xs[-500:]
+                self.ys = self.ys[-500:]
+            elif(self.Mode == 'freq'):
+                self.ys = self.SERIAL.doneBUFFER.copy()
+                self.xs = range(len(self.ys))
+            else:
+                print('No Mode Selected')
 
             self.ax.clear()
             self.ax.plot(self.xs, self.ys, linewidth=1)
