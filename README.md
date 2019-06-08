@@ -1,19 +1,70 @@
 # Is this touch?
+
+![alt text](.readme/groupTouche.jpeg 'All Prototypes')
+
 Sensor and application to generate training data for signal classification (Project will be linked later) to turn objects into touch-sensitive interfaces
 
-## Steps
-- [ ] Build the sensor prototype
-- [ ] Get clean data from the sensor
+---
+
+## Documentation
+
+### Steps
+
+- [x] Build the sensor prototype with Arduino Uno
+- [x] Get clean data and test the sensor
+- [ ] ~~Rewrite Code for ESP~~
 - [ ] Write an application to generate training data
-  - [ ] Realtime plotting
+  - [x] Realtime plotting
+  - [ ] Matching serial communication to the Arduino Touché sensor
   - [ ] Start / Stop Sequence
   - [ ] Save Dataset
 
-### Inspirations and Papers
-https://www.youtube.com/watch?v=E4tYpXVTjxA
-https://pdfs.semanticscholar.org/d0bb/14033d11613c50958379e6825859c31c15ee.pdf
-https://github.com/damellis/ESP
-https://dl.acm.org/citation.cfm?id=3064735
+#### Build the sensor prototype with Arduino Uno
 
-#### Disclaimer
+![alt text](.readme/UnoTouche.jpeg 'Touché with Arduino Uno')
+![alt text](.readme/dzl.jpg 'Touché with Arduino Uno')
+
+As a starting point I took the [example of @damellis](https://github.com/damellis/ESP/wiki/%5BExample%5D-Touché-swept-frequency-capacitive-sensing 'Example Touché swept frequency capacitive sensing'), which is based on the schematic of [DZL](http://dzlsevilgeniuslair.blogspot.com/2012/05/arduino-do-touche-dance.html 'Arduino do the Touché dance') and the code of [madshobye](https://www.instructables.com/id/Touche-for-Arduino-Advanced-touch-sensing/ 'Touche for Arduino: Advanced Touch Sensing.').
+
+##### Output
+
+The madshobye code comes with a processing script that can plot the data from the Uno. The results looked very good and the experiment with the water interface could also be successfully reproduced.
+![alt text](.readme/UnoData.png 'Result of Arduino Uno')
+
+#### Rewrite Code for ESP
+
+Because of the smaller size, Bluetooth and Wifi I wanted to rewrite the code to ESP. This way I wanted to understand the code better. After a few hours and trying to replace the Arduino "timer register" on the ESP or to find a working alternative or workaround, I put the attempt aside. The best result I could get was the differentiation between touch and no touch, but that was extremely noisy and no different from a normal capacitive sensor.
+
+![alt text](.readme/ESPdata.png 'Result of rewriting the Code for ESP')
+
+#### Write an application to generate training data
+
+![alt text](.readme/testESP.jpeg 'Touché with Arduino Uno')
+To better understand serial communication I built a small simple Capacitive Sensor with an ESP. With its data I built a first Python script to test the serial communication and to plot this data afterwards.
+
+##### Understanding the Code and Serial
+
+I like when my code is modular and therefore I wrote a small framework with two components to manage the serial communication and to plot the data.
+
+Here I had to find out more about threads and threading so that I could read the serial data and then process it by the plotter at the same time.
+
+Then I found out that it makes a difference if you map a stream of data or an array of data and so I had to add a switch for each case. I then tried to understand the technique how the Arduino Uno sends the array of data to Python to plot the data the same way.
+
+##### GUI / Plotter
+
+For plotting I use [matplotlib](https://matplotlib.org 'matplotlib for Python'). For time reasons I decided not to use tkinter or qt for the GUI. Matplotlib uses Tkinter under the hood but if you try to manually put the plot into a Tkinter window you may experience problems with plot updates and interactivity. But with matplotlib you can also add buttons and interaction elements to the window, this should be enough for the first version.
+
+---
+
+### Inspirations and Papers
+
+- https://www.youtube.com/watch?v=E4tYpXVTjxA
+- https://pdfs.semanticscholar.org/d0bb/14033d11613c50958379e6825859c31c15ee.pdf
+- https://github.com/damellis/ESP
+- https://dl.acm.org/citation.cfm?id=3064735
+
+---
+
+### Info & Disclaimer
+
 Submission for the 6th semester in Creative Coding, Interactive Media Design, supervised by Prof. Claudius Coenen (@ccoenen) and Prof. Garrit Schaap (@pixelkind)
