@@ -13,31 +13,24 @@ colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 
 
 class HARRY_PLOTTER:
-    def __init__(self, Mode, Scale, Port, Baud, BufferLength='1', Divider='0'):
+    def __init__(self, Mode, Port, Baud, BufferLength=1, Divider='0'):
         print('HARRY PLOTTER')
 
         # Plot
         self.Mode = Mode
-        self.Scale = Scale
-        self.fig = plt.figure(num='m˚ Signal Plotter', figsize=(5, 6))
+        self.BufferLength = BufferLength
+        self.fig = plt.figure(num='m˚ Signal Plotter', figsize=(6, 6))
         self.ax = plt.subplot()
         plt.subplots_adjust(bottom=0.2)
 
         # Dummy Data
-        self.xs = self.zero(self.Scale)
-        self.ys = self.zero(self.Scale)
+        self.xs = self.zero(self.BufferLength)
+        self.ys = self.zero(self.BufferLength)
 
         # Labels
-        self.ax.set_title('Arduino Signal Plotter')
+        self.setLabels()
 
-        if(self.Mode == 'freq'):
-            self.ax.set_xlabel('Frequencies')
-        else:
-            self.ax.set_xlabel('Time')
-
-        self.ax.set_ylabel('Data')
         # GUI
-
         # L, B, W, H
         self.axStart = plt.axes([0.01, 0.01, 0.2, 0.05])
         self.startButton = Button(self.axStart, 'Start Session')
@@ -67,6 +60,7 @@ class HARRY_PLOTTER:
                 print('No Mode Selected')
 
             self.ax.clear()
+            self.setLabels()
             self.ax.plot(self.xs, self.ys, linewidth=1)
 
     def render(self):
@@ -83,6 +77,17 @@ class HARRY_PLOTTER:
     def zero(self, n):
         zeros = [0] * n
         return zeros
+
+    def setLabels(self):
+        # Set Labels
+        self.ax.set_title('Arduino Signal Plotter')
+
+        if(self.Mode == 'freq'):
+            self.ax.set_xlabel('Frequencies')
+        else:
+            self.ax.set_xlabel('Time')
+
+        self.ax.set_ylabel('Data')
 
     def close(self):
         self.SERIAL.close()

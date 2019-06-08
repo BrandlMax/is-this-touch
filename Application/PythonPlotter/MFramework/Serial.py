@@ -38,13 +38,30 @@ class CONNECTION:
             self.LINE = self.SERIAL.readline().decode('utf8').strip()
 
             if(self.LINE == self.Divider):
-                self.doneBUFFER = self.wipBUFFER.copy()
+                if(len(self.doneBUFFER) < self.BufferLength):
+                    self.doneBUFFER = self.zero(self.BufferLength)
+                else:
+                    self.doneBUFFER = self.wipBUFFER.copy()
+
                 self.wipBUFFER = []
             else:
-                self.wipBUFFER.append(self.LINE)
+                value = self.toInt(self.LINE)
+                if(len(self.wipBUFFER) <= self.BufferLength and value):
+                    self.wipBUFFER.append(value)
 
             print(self.doneBUFFER)
             self.ready = True
+
+    def toInt(self, value):
+        # To Prevent Error
+        try:
+            return int(value)
+        except ValueError:
+            return False
+
+    def zero(self, n):
+        zeros = [0] * n
+        return zeros
 
     def close(self):
         self.isReading = False
