@@ -64,7 +64,7 @@ class HARRY_PLOTTER:
                 self.xs = range(len(self.ys))
                 if(self.isSession):
                     self.CSV.writeStream(
-                        'testfile' + str(self.sessionId) + '.csv', self.SERIAL.doneBUFFER)
+                        'Session_' + str(self.sessionId) + '.csv', self.SERIAL.doneBUFFER)
             else:
                 print('No Mode Selected')
 
@@ -82,7 +82,7 @@ class HARRY_PLOTTER:
         if(self.isSession != True):
             self.isSession = True
             self.sessionId = self.sessionId + 1
-            self.CSV.start('testfile' + str(self.sessionId) + '.csv')
+            self.CSV.start('Session_' + str(self.sessionId) + '.csv')
 
     def endSession(self, e):
         print('Session closed')

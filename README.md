@@ -2,7 +2,7 @@
 
 ![alt text](.readme/groupTouche.jpeg 'All Prototypes')
 
-Sensor and application to generate training data for signal classification (Project will be linked later) to turn objects into touch-sensitive interfaces
+Sensor and application to generate training data for signal classification (Signal Classifier Project will be linked later) to turn objects into touch-sensitive interfaces.
 
 ---
 
@@ -13,11 +13,11 @@ Sensor and application to generate training data for signal classification (Proj
 - [x] Build the sensor prototype with Arduino Uno
 - [x] Get clean data and test the sensor
 - [ ] ~~Rewrite Code for ESP~~
-- [ ] Write an application to generate training data
+- [x] Write an application to generate training data
   - [x] Realtime plotting
   - [x] Matching serial communication to the Arduino Touché sensor
-  - [ ] Start / Stop Sequence
-  - [ ] Save Dataset
+  - [x] Start / Stop Sequence
+  - [x] Save Dataset
 
 #### Build the sensor prototype with Arduino Uno
 
@@ -63,7 +63,11 @@ I have rewritten the "SendData" code so that I can see it in the Arduino plotter
 
 ![alt text](.readme/ArduinoPlotter.png 'Results with Arduino Plotter')
 
----
+##### Sessions and CSV Data
+
+You can now start sessions with the "Start Session" button and all data will be saved in a CSV file with session id. With "End Session" the session will be ended and no further data will be written to the file. Unfortunately I haven't found a solution yet how to make it visible that a session is running.
+
+## ![alt text](.readme/CSV.png 'Results with Arduino Plotter')
 
 ### Inspirations and Papers
 
