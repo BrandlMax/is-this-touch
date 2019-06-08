@@ -1,5 +1,6 @@
 # HARRY PLOTTER
 from MFramework import Serial
+from MFramework import CSV
 import numpy as np
 # For Plotting
 import matplotlib
@@ -16,18 +17,18 @@ class HARRY_PLOTTER:
     def __init__(self, Mode, Port, Baud, BufferLength=1, Divider='0'):
         print('HARRY PLOTTER')
 
-        # Plot
+        # PLOT
         self.Mode = Mode
         self.BufferLength = BufferLength
         self.fig = plt.figure(num='m˚ Signal Plotter', figsize=(6, 6))
         self.ax = plt.subplot()
         plt.subplots_adjust(bottom=0.2)
 
-        # Dummy Data
+        # DUMMY DATA
         self.xs = self.zero(self.BufferLength)
         self.ys = self.zero(self.BufferLength)
 
-        # Labels
+        # LABELS
         self.setLabels()
 
         # GUI
@@ -40,7 +41,12 @@ class HARRY_PLOTTER:
         self.endButton = Button(self.axEnd, 'End Session')
         self.endButton.on_clicked(self.endSession)
 
+        # SESSION
+        self.isSession = False
+        self.sessionId = 0
+
         # START SERIAL CONNECTION
+        self.CSV = CSV.LUKE_CSVWRITER(self.BufferLength)
         self.SERIAL = Serial.CONNECTION(Port, Baud, BufferLength, Divider)
 
     def plot(self, i, xs, ys):
@@ -56,6 +62,9 @@ class HARRY_PLOTTER:
             elif(self.Mode == 'freq'):
                 self.ys = self.SERIAL.doneBUFFER.copy()
                 self.xs = range(len(self.ys))
+                if(self.isSession):
+                    self.CSV.writeStream(
+                        'testfile' + str(self.sessionId) + '.csv', self.SERIAL.doneBUFFER)
             else:
                 print('No Mode Selected')
 
@@ -70,9 +79,14 @@ class HARRY_PLOTTER:
 
     def startSession(self, e):
         print('Session Started')
+        if(self.isSession != True):
+            self.isSession = True
+            self.sessionId = self.sessionId + 1
+            self.CSV.start('testfile' + str(self.sessionId) + '.csv')
 
     def endSession(self, e):
         print('Session closed')
+        self.isSession = False
 
     def zero(self, n):
         zeros = [0] * n
