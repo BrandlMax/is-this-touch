@@ -1,10 +1,8 @@
 
 
 //****************************************************************************************
-// Rewrite of Illutron and DZL take on Disney style capacitive touch sensor using only passives and Arduino
-// @brandlmax
+// Illutron and DZL take on Disney style capacitive touch sensor using only passives and Arduino
 //****************************************************************************************
-
 
 #define SET(x, y) (x |= (1 << y))    //-Bit set/clear macros
 #define CLR(x, y) (x &= (~(1 << y))) // |

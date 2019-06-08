@@ -14,7 +14,7 @@ void loop()
   int x4 = 4 + random(0, 2);
   
   // Analog Pin
-  Serial.println(7);
+  Serial.println(999);
   Serial.println(x1);
   Serial.println(x2);
   Serial.println(x3);

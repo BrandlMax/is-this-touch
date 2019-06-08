@@ -15,7 +15,7 @@ Sensor and application to generate training data for signal classification (Proj
 - [ ] ~~Rewrite Code for ESP~~
 - [ ] Write an application to generate training data
   - [x] Realtime plotting
-  - [ ] Matching serial communication to the Arduino Touché sensor
+  - [x] Matching serial communication to the Arduino Touché sensor
   - [ ] Start / Stop Sequence
   - [ ] Save Dataset
 
@@ -56,6 +56,12 @@ Then I found out that it makes a difference if you map a stream of data or an ar
 For plotting I use [matplotlib](https://matplotlib.org 'matplotlib for Python'). For time reasons I decided not to use tkinter or qt for the GUI. Matplotlib uses Tkinter under the hood but if you try to manually put the plot into a Tkinter window you may experience problems with plot updates and interactivity. But with matplotlib you can also add buttons and interaction elements to the window, this should be enough for the first version.
 
 ##### Matching serial communication to the Arduino Touché sensor
+
+I have rewritten the "SendData" code so that I can see it in the Arduino plotter and display it in my Python version. Everything works fine in the Arduino plotter. But the Python plotting delays 15+ seconds.
+
+![alt text](.readme/PythonPlotterResults.png 'Results with Python Plotter')
+
+![alt text](.readme/ArduinoPlotter.png 'Results with Arduino Plotter')
 
 ---
 

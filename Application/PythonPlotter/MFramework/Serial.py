@@ -35,7 +35,7 @@ class CONNECTION:
 
     def READ(self):
         while (self.isReading):
-            self.LINE = self.SERIAL.readline().decode('utf8').strip()
+            self.LINE = self.tryRead()
 
             if(self.LINE == self.Divider):
                 if(len(self.doneBUFFER) < self.BufferLength):
@@ -49,7 +49,7 @@ class CONNECTION:
                 if(len(self.wipBUFFER) <= self.BufferLength and value):
                     self.wipBUFFER.append(value)
 
-            print(self.doneBUFFER)
+            # print(self.doneBUFFER)
             self.ready = True
 
     def toInt(self, value):
@@ -58,6 +58,12 @@ class CONNECTION:
             return int(value)
         except ValueError:
             return False
+
+    def tryRead(self):
+        try:
+            return self.SERIAL.readline().decode('utf8').strip()
+        except UnicodeDecodeError:
+            return '0'
 
     def zero(self, n):
         zeros = [0] * n
