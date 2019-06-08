@@ -1,10 +1,15 @@
 # HARRY PLOTTER
+from MFramework import Serial
 import numpy as np
+# For Plotting
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+# For GUI
+from matplotlib import colors as mcolors
 from matplotlib.widgets import Button
-
-from MFramework import Serial
+matplotlib.rcParams['toolbar'] = 'None'
+colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
 
 
 class HARRY_PLOTTER:
@@ -14,8 +19,9 @@ class HARRY_PLOTTER:
         # Plot
         self.Mode = Mode
         self.Scale = Scale
-        self.fig = plt.figure(num='m˚ Signal Plotter')
-        self.ax = plt.axes()
+        self.fig = plt.figure(num='m˚ Signal Plotter', figsize=(5, 6))
+        self.ax = plt.subplot()
+        plt.subplots_adjust(bottom=0.2)
 
         # Dummy Data
         self.xs = self.zero(self.Scale)
@@ -23,19 +29,25 @@ class HARRY_PLOTTER:
 
         # Labels
         self.ax.set_title('Arduino Signal Plotter')
-        self.ax.set_xlabel('Time')
-        self.ax.set_ylabel('Data')
 
+        if(self.Mode == 'freq'):
+            self.ax.set_xlabel('Frequencies')
+        else:
+            self.ax.set_xlabel('Time')
+
+        self.ax.set_ylabel('Data')
         # GUI
+
         # L, B, W, H
-        self.axStart = plt.axes([0, 0, 0.2, 0.05])
+        self.axStart = plt.axes([0.01, 0.01, 0.2, 0.05])
         self.startButton = Button(self.axStart, 'Start Session')
         self.startButton.on_clicked(self.startSession)
 
-        self.axEnd = plt.axes([0.21, 0, 0.2, 0.05])
+        self.axEnd = plt.axes([0.22, 0.01, 0.2, 0.05])
         self.endButton = Button(self.axEnd, 'End Session')
         self.endButton.on_clicked(self.endSession)
 
+        # START SERIAL CONNECTION
         self.SERIAL = Serial.CONNECTION(Port, Baud, BufferLength, Divider)
 
     def plot(self, i, xs, ys):
