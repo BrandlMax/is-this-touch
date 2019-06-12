@@ -8,7 +8,7 @@ def main():
     #PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.SLAB_USBtoUART', 115200, 1, '')
     # UNO
     PLOTTER = Plotter.HARRY_PLOTTER(
-        'freq', '/dev/cu.usbmodem141401', 115200, 160, '999')
+        'freq', '/dev/cu.usbmodem141201', 115200, 160, '999')
 
     # Start Plotting Loop
     PLOTTER.render()
