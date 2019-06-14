@@ -3,7 +3,7 @@ from MFramework import Plotter
 
 
 def main():
-    print('ArduinoPlotting')
+    print('Is this Touch?')
 
     # Plotter.HARRY_PLOTTER(
     # Mode, // String 'frequency' or 'stream' as Display-Type

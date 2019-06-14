@@ -1,8 +1,7 @@
 # Is this touch?
 
 ![alt text](.readme/groupTouche.jpeg 'All Prototypes')
-
-Sensor and application to generate training data for signal classification (Signal Classifier Project will be linked later) to turn objects into touch-sensitive interfaces.
+Sensor and application to generate training data for my [Signal Classifier](https://github.com/BrandlMax/Signal-Classifier 'Signal Classifier') to turn objects into touch-sensitive interfaces.
 
 ---
 
