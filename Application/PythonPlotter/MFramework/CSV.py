@@ -13,7 +13,7 @@ class LUKE_CSVWRITER:
                 dataFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             fileWriter.writerow(self.header)
 
-    def writeStream(self, filename, dataArray):
+    def writeFreq(self, filename, dataArray):
         with open('export/' + filename, mode='a') as dataFile:
             fileWriter = csv.writer(
                 dataFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)

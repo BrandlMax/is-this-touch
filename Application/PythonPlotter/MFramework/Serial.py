@@ -1,10 +1,6 @@
 # SERIAL
 # Inspired from https://www.thepoorengineer.com/en/arduino-python-plot/
 import serial
-import threading
-import datetime as dt
-
-import time
 
 
 class CONNECTION:
@@ -12,7 +8,7 @@ class CONNECTION:
         self.PORT = Port
         self.BAUD = Baud
         self.ready = False
-        self.isReading = True
+        self.isReading = False
         self.LINE = 0
         self.BufferLength = BufferLength
         self.wipBUFFER = []
@@ -25,32 +21,32 @@ class CONNECTION:
             self.SERIAL = serial.Serial(self.PORT, self.BAUD, timeout=1)
             print('Connected to ' + str(self.PORT) +
                   ' at ' + str(self.BAUD) + ' BAUD.')
-
-            self.READINGTHREAD = threading.Thread(target=self.READ)
-            self.READINGTHREAD.start()
+            self.ready = True
 
         except:
+            self.ready = False
             print("Failed to connect with " + str(self.PORT) +
                   ' at ' + str(self.BAUD) + ' BAUD.')
 
     def READ(self):
-        while (self.isReading):
-            self.LINE = self.tryRead()
+        if(self.isReading != True):
+            self.isReading = True
+            while(self.isReading):
+                self.LINE = self.tryRead()
 
-            if(self.LINE == self.Divider):
-                if(len(self.doneBUFFER) < self.BufferLength):
-                    self.doneBUFFER = self.zero(self.BufferLength)
+                if(self.LINE == self.Divider):
+                    if(len(self.doneBUFFER) < self.BufferLength):
+                        self.doneBUFFER = self.zero(self.BufferLength)
+                    else:
+                        self.doneBUFFER = self.wipBUFFER.copy()
+                    self.wipBUFFER = []
+                    self.isReading = False
                 else:
-                    self.doneBUFFER = self.wipBUFFER.copy()
+                    value = self.toInt(self.LINE)
+                    if(len(self.wipBUFFER) <= self.BufferLength and value):
+                        self.wipBUFFER.append(value)
 
-                self.wipBUFFER = []
-            else:
-                value = self.toInt(self.LINE)
-                if(len(self.wipBUFFER) <= self.BufferLength and value):
-                    self.wipBUFFER.append(value)
-
-            # print(self.doneBUFFER)
-            self.ready = True
+                # print("Done Buffer", self.doneBUFFER)
 
     def toInt(self, value):
         # To Prevent Error
@@ -71,6 +67,5 @@ class CONNECTION:
 
     def close(self):
         self.isReading = False
-        self.READINGTHREAD.join()
         self.SERIAL.close()
         print('Disconnected...')

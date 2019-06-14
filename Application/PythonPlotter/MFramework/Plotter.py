@@ -51,19 +51,22 @@ class HARRY_PLOTTER:
 
     def plot(self, i, xs, ys):
         if(self.SERIAL.ready):
-
+            self.SERIAL.READ()
             if(self.Mode == 'stream'):
                 for i in range(len(self.SERIAL.doneBUFFER)):
-                    # print('PLOT: ' + str(self.SERIAL.doneBUFFER[i]))
                     self.ys.append(int(self.SERIAL.doneBUFFER[i]))
                 self.xs = range(len(self.ys))
                 self.xs = self.xs[-500:]
                 self.ys = self.ys[-500:]
-            elif(self.Mode == 'freq'):
+                if(self.isSession):
+                    self.CSV.writeFreq(
+                        'Session_' + str(self.sessionId) + '.csv', self.SERIAL.doneBUFFER)
+
+            elif(self.Mode == 'frequency'):
                 self.ys = self.SERIAL.doneBUFFER.copy()
                 self.xs = range(len(self.ys))
                 if(self.isSession):
-                    self.CSV.writeStream(
+                    self.CSV.writeFreq(
                         'Session_' + str(self.sessionId) + '.csv', self.SERIAL.doneBUFFER)
             else:
                 print('No Mode Selected')
@@ -96,7 +99,7 @@ class HARRY_PLOTTER:
         # Set Labels
         self.ax.set_title('Arduino Signal Plotter')
 
-        if(self.Mode == 'freq'):
+        if(self.Mode == 'frequency'):
             self.ax.set_xlabel('Frequencies')
         else:
             self.ax.set_xlabel('Time')

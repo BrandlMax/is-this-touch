@@ -4,11 +4,16 @@ from MFramework import Plotter
 
 def main():
     print('ArduinoPlotting')
-    # ESP
-    #PLOTTER = Plotter.HARRY_PLOTTER('/dev/cu.SLAB_USBtoUART', 115200, 1, '')
-    # UNO
+
+    # Plotter.HARRY_PLOTTER(
+    # Mode, // String 'frequency' or 'stream' as Display-Type
+    # Port, // Serial Port
+    # Baud, // Baudrate from Arduino
+    # BufferLength=1, // Number of related values for Plotting
+    # Divider='0' // start value (kind of start bit)
+    # )
     PLOTTER = Plotter.HARRY_PLOTTER(
-        'freq', '/dev/cu.usbmodem141201', 115200, 160, '999')
+        'frequency', '/dev/cu.usbmodem143201', 115200, 160, '999')
 
     # Start Plotting Loop
     PLOTTER.render()
