@@ -56,7 +56,7 @@ For plotting I use [matplotlib](https://matplotlib.org 'matplotlib for Python').
 
 ##### Matching serial communication to the Arduino Touché sensor
 
-I have rewritten the "SendData" code so that I can see it in the Arduino plotter and display it in my Python version. Everything works fine in the Arduino plotter. But the Python plotting delays 15+ seconds.
+I have rewritten the "SendData" code so that I can see it in the Arduino plotter and display it in my Python version.
 
 ![alt text](.readme/PythonPlotterResults.png 'Results with Python Plotter')
 
