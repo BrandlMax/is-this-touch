@@ -32,7 +32,7 @@ The madshobye code comes with a processing script that can plot the data from th
 
 #### Rewrite Code for ESP
 
-Because of the smaller size, Bluetooth and Wifi I wanted to rewrite the code to ESP. This way I wanted to understand the code better. After a few hours and trying to replace the Arduino "timer register" on the ESP or to find a working alternative or workaround, I put the attempt aside. The best result I could get was the differentiation between touch and no touch, but that was extremely noisy and no different from a normal capacitive sensor.
+Because of the smaller size, Bluetooth and Wifi I wanted to rewrite the code to ESP. This way I wanted to understand the code better. After a few hours and trying to find a alternative for the Arduino "timer register" on the ESP or to find a workaround, I put the attempt aside. The best result I could get was the differentiation between touch and no touch, but that was extremely noisy and no different from a normal capacitive sensor.
 
 ![alt text](.readme/ESPdata.png 'Result of rewriting the Code for ESP')
 
@@ -45,14 +45,14 @@ To better understand serial communication I built a small simple Capacitive Sens
 
 I like when my code is modular and therefore I wrote a small framework with two components to manage the serial communication and to plot the data.
 
-Here I had to find out more about threads and threading so that I could read the serial data and then process it by the plotter at the same time.
+Here I had to find out more about threads and threading so that I could read the serial data and then process it by the plotter at the same time. Later, however, I found out that I had slowed down my code with this way. So now I only use the loop of matplotlib animation function to get my data.
 
-Then I found out that it makes a difference if you map a stream of data or an array of data and so I had to add a switch for each case. I then tried to understand the technique how the Arduino Uno sends the array of data to Python to plot the data the same way.
+Then I found out that it makes a difference if you map a stream of data or an array of data and so I had to add a switch for each case. I then tried to understand the technique of the original code how the Arduino Uno sends the data to plot the data the same way.
 
 ##### GUI / Plotter
 
 ![alt text](.readme/UI.png 'Touché with Arduino Uno')
-For plotting I use [matplotlib](https://matplotlib.org 'matplotlib for Python'). For time reasons I decided not to use tkinter or qt for the GUI. Matplotlib uses Tkinter under the hood but if you try to manually put the plot into a Tkinter window you may experience problems with plot updates and interactivity. But with matplotlib you can also add buttons and interaction elements to the window, this should be enough for the first version.
+For plotting I use [matplotlib](https://matplotlib.org 'matplotlib for Python'). For time reasons I decided not to write a own GUI with tkinter or qt. Matplotlib uses Tkinter under the hood and you can also add buttons and interaction elements to the window, this should be enough for the first version.
 
 ##### Matching serial communication to the Arduino Touché sensor
 
@@ -66,7 +66,11 @@ I have rewritten the "SendData" code so that I can see it in the Arduino plotter
 
 You can now start sessions with the "Start Session" button and all data will be saved in a CSV file with session id. With "End Session" the session will be ended and no further data will be written to the file. Unfortunately I haven't found a solution yet how to make it visible that a session is running.
 
-## ![alt text](.readme/CSV.png 'Results with Arduino Plotter')
+![alt text](.readme/CSV.png 'Results with Arduino Plotter')
+
+##### Final Version and Test
+
+![alt text](.readme/finalTouch.png 'Final Touch')
 
 ### Inspirations and Papers
 

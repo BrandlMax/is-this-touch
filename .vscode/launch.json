@@ -8,6 +8,10 @@
       "name": "Python: Aktuelle Datei",
       "type": "python",
       "request": "launch",
+      "env": {
+        "PYTHONPATH": "${workspaceRoot}"
+      },
+      "python.pythonPath": "${workspaceRoot}",
       "program": "${file}",
       "console": "integratedTerminal"
     }
